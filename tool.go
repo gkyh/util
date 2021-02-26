@@ -362,6 +362,12 @@ func Long(f float64) int64 {
 	return int64(math.Floor(f + 0/5))
 }
 
+func Ncy2Int(f64 float64) int64 {
+
+	s := fmt.Sprintf("%0.0f", f64*100)
+	i64, _ := strconv.ParseInt(s, 10, 64)
+	return int64(i64)
+}
 func Int2ncy(i int64) float64 {
 
 	var f float64 = float64(i)
