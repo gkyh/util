@@ -9,6 +9,9 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"strings"
+	"bufio"
+	"os"
+	"io"
 )
 
 func AesEncryptStr(origData, key []byte) (string, error) {
@@ -129,4 +132,23 @@ func Sha1s(s string) string {
 	r := sha1.Sum([]byte(s))
 	sh := hex.EncodeToString(r[:])
 	return strings.ToUpper(sh)
+}
+func FileHash(fname string) (string, error) {
+	f, err := os.Open(fname)
+	if err != nil {
+
+		return "", err
+	}
+	defer f.Close()
+
+	br := bufio.NewReader(f)
+
+	h := sha1.New()
+	_, err = io.Copy(h, br)
+
+	if err != nil {
+	
+		return "", err
+	}
+	return fmt.Sprintf("%x", h.Sum(nil)), nil
 }
